@@ -9,28 +9,27 @@ function App() {
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState('false');
-
-
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isPopupClose, setIsPopupClose] = useState(false);
 
   function handleEditAvatarClick() {
-    const popupAvatar = document.querySelector('.popup_place_avatar');
-    popupAvatar.classList.add('popup_open')
-
+    setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
   }
 
   function handleEditProfileClick() {
-    // const popupProfile = document.querySelector('.popup_place_profile');
-    // popupProfile.classList.add('popup_open')
-    setIsEditProfilePopupOpen(true)
-
+    setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
 
   function handleAddPlaceClick() {
-    const popupNewCard = document.querySelector('.popup_place_card');
-    popupNewCard.classList.add('popup_open')
+    setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
+  function closeAllPopups() {
+    setIsPopupClose(!isPopupClose);
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+  }
 
   return (
     <div className="page">
@@ -42,6 +41,7 @@ function App() {
       title="Редактировать профиль" 
       buttonText="Сохранить"
       isOpen={isEditProfilePopupOpen}
+      onClose={closeAllPopups}
       >
         <div className="popup__position-container">
           <input
@@ -70,7 +70,13 @@ function App() {
           <span className="popup__error job-error"></span>
         </div>
       </PopupWithForm>
-      <PopupWithForm name="card" title="Новое место" buttonText="Создать">
+      <PopupWithForm 
+      name="card" 
+      title="Новое место" 
+      buttonText="Создать"
+      isOpen={isAddPlacePopupOpen}
+      onClose={closeAllPopups}
+      >
         <div className="popup__position-container">
           <input
             required
@@ -96,8 +102,18 @@ function App() {
           <span className="popup__error link-error"></span>
         </div>
       </PopupWithForm>
-      <PopupWithForm name="card-delete" title="Вы уверены?" buttonText="Да" />
-      <PopupWithForm name="avatar" title="Обновить аватар" buttonText="Сохранить">
+      <PopupWithForm 
+      name="card-delete" 
+      title="Вы уверены?" 
+      buttonText="Да" 
+      />
+      <PopupWithForm 
+      name="avatar" 
+      title="Обновить аватар" 
+      buttonText="Сохранить"
+      isOpen={isEditAvatarPopupOpen}
+      onClose={closeAllPopups}
+      >
         <div className="popup__position-container">
           <input
             required
@@ -108,7 +124,6 @@ function App() {
             className="popup__input popup__input_place_card-link"/>
           <span className="popup__error avatar-error"></span>
         </div>
-        <button type="button" className="popup__cross"></button>
       </PopupWithForm>
       <ImagePopup />
 
