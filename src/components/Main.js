@@ -34,8 +34,8 @@ function Main (props) {
     </section>
     <section className="elements">
       <ul className="elements__list">
-     {cards.map((item, id) => {
-      return <Card card={item} key={id} onCardClick={props.onCardClick} />
+     {cards.map((item) => {
+      return <Card card={item} key={item._id} onCardClick={props.onCardClick} />
      })}
       </ul>
     </section>

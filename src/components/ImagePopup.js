@@ -3,7 +3,7 @@ function ImagePopup (props) {
     <div className={`
     popup 
     popup_place_card-image
-    ${props.card ? "popup_open" : ""}
+    ${Object.keys(props.card).length ? "popup_open" : ""}
     `}
     >
       <div className="popup__content popup__content_card-image">
