@@ -3,7 +3,6 @@ import Main from './Main.js';
 import Footer from './Footer.js'
 import PopupWithForm  from './PopupWithForm.js'
 import ImagePopup from './ImagePopup.js';
-import api from '../utils/api.js'
 import { useState } from 'react';
 
 function App() {
@@ -12,6 +11,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isPopupClose, setIsPopupClose] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(false);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -25,17 +25,27 @@ function App() {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
+  function handleCardClick() {
+    setSelectedCard(!selectedCard);
+  }
+
   function closeAllPopups() {
     setIsPopupClose(!isPopupClose);
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard(false);
   }
 
   return (
     <div className="page">
       <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}/>
+      <Main 
+      onEditProfile={handleEditProfileClick} 
+      onAddPlace={handleAddPlaceClick} 
+      onEditAvatar={handleEditAvatarClick}
+      onCardClick={handleCardClick}
+      />
       <Footer />
       <PopupWithForm 
       name="profile" 
@@ -126,24 +136,12 @@ function App() {
           <span className="popup__error avatar-error"></span>
         </div>
       </PopupWithForm>
-      <ImagePopup />
+      <ImagePopup
+      onClose={closeAllPopups}
+      card={selectedCard}
+      />
+   
 
-      <template className="template">
-        <li className="elements__item">
-          <img className="elements__image" alt="" />
-          <button type="button" className="elements__remove"></button>
-          <div className="elements__info">
-            <h3 className="elements__title">
-
-            </h3>
-            <div>
-              <button type="click" className="elements__like"></button>
-              <p className="elements__like-count"></p>
-            </div>
-          </div>
-        </li>
-      </template>
-      
     </div>
   );
 }

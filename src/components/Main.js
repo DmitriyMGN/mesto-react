@@ -1,20 +1,24 @@
 import { useState, useEffect } from 'react';
-import api from '../utils/api.js'
+import api from '../utils/api.js';
+import Card from './Card.js';
 
 function Main (props) {
   const [userName, setUserName] = useState('');
   const [userDescription, setUserDescription] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    api.getUserInfo()
-    .then((userData) => {
-      setUserName(userData.name)
-      setUserDescription(userData.about)
-      setUserAvatar(userData.avatar)
-    })
-    .catch(err => {console.log(err)});
-})
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([userData, cardsData]) => {
+      setUserName(userData.name);
+      setUserDescription(userData.about);
+      setUserAvatar(userData.avatar);
+
+      setCards(cardsData)
+      })
+      .catch(err => {console.log(err)});
+    }, [])
 
   return (
     <main>
@@ -30,6 +34,9 @@ function Main (props) {
     </section>
     <section className="elements">
       <ul className="elements__list">
+     {cards.map((item, id) => {
+      return <Card card={item} key={id} onCardClick={props.onCardClick} />
+     })}
       </ul>
     </section>
     </main>
