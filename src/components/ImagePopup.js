@@ -1,5 +1,4 @@
 function ImagePopup (props) {
-
   return (
     <div className={`
     popup 
@@ -9,8 +8,8 @@ function ImagePopup (props) {
     >
       <div className="popup__content popup__content_card-image">
         <button type="button" className="popup__cross" onClick={props.onClose}></button>
-        <img className="popup__card-image" alt="" src={`${props.card ? EventTarget.src : ""}`} />
-        <p className="popup__caption"></p>
+        <img className="popup__card-image" alt={props.card.name} src={` ${props.card ? props.card.link : ""} `} />
+        <p className="popup__caption">{props.card.name}</p>
       </div>
     </div>
   )
