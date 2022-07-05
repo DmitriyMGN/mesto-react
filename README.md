@@ -6,6 +6,7 @@
 * HTML
 * CSS
 * JavaScript
+* React.js
 
 # Технологии, используемые в верстке:
 * Flexbox-верстка
@@ -13,7 +14,7 @@
 * Адаптивность интерфейса для устройств с различной шириной экрана
 * Организация элементов по методологии БЭМ
 * Файловая структура БЭМ Nested
-* Реализация модального окна "popup" с применением JavaScript
+* Реализация модальных окон
 
 # Ссылка на GitHub Pages:
- https://dmitriymgn.github.io/mesto/
+ https://dmitriymgn.github.io/mesto-react/
