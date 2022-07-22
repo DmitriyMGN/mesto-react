@@ -3,7 +3,8 @@ import Main from './Main.js';
 import Footer from './Footer.js'
 import PopupWithForm  from './PopupWithForm.js'
 import ImagePopup from './ImagePopup.js';
-import { useState } from 'react';
+import api from '../utils/api.js';
+import { useState,useEffect } from 'react';
 
 function App() {
 
@@ -12,6 +13,18 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isPopupClose, setIsPopupClose] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
+
+  
+  useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([userData, cardsData]) => {
+      
+
+      
+      })
+      .catch(err => {console.log(err)});
+    }, [])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
