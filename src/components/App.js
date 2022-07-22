@@ -2,8 +2,10 @@ import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js'
 import PopupWithForm  from './PopupWithForm.js'
+import EditProfilePopup from './EditProfilePopup.js';
 import ImagePopup from './ImagePopup.js';
 import api from '../utils/api.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { useState,useEffect } from 'react';
 
 function App() {
@@ -13,15 +15,13 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isPopupClose, setIsPopupClose] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState('');
 
   
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-    .then(([userData, cardsData]) => {
-      
-
-      
+    api.getUserInfo()
+    .then((userData) => {
+      setCurrentUser(userData)
       })
       .catch(err => {console.log(err)});
     }, [])
@@ -51,6 +51,7 @@ function App() {
   }
 
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <Header />
       <Main 
@@ -60,40 +61,7 @@ function App() {
       onCardClick={handleCardClick}
       />
       <Footer />
-      <PopupWithForm 
-      name="profile" 
-      title="Редактировать профиль" 
-      buttonText="Сохранить"
-      isOpen={isEditProfilePopupOpen}
-      onClose={closeAllPopups}
-      >
-        <div className="popup__position-container">
-          <input
-            required
-            minLength="2"
-            maxLength="40"
-            type="text"
-            id="person"
-            name="person"
-            placeholder="Имя"
-            className="popup__input popup__input_place_name"
-          />
-          <span className="popup__error person-error"></span>
-        </div>
-        <div className="popup__position-container">
-          <input
-            required
-            minLength="2"
-            maxLength="200"
-            type="text"
-            id="job"
-            name="job"
-            placeholder="Профессиональная деятельность"
-            className="popup__input popup__input_place_activity"
-          />
-          <span className="popup__error job-error"></span>
-        </div>
-      </PopupWithForm>
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} /> 
       <PopupWithForm 
       name="card" 
       title="Новое место" 
@@ -154,7 +122,9 @@ function App() {
       card={selectedCard}
       />
     </div>
-  );
+    </CurrentUserContext.Provider>
+  )
 }
+
 
 export default App;
