@@ -1,10 +1,8 @@
-import { useState, useEffect, useContext} from 'react';
+import {useContext} from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import api from '../utils/api.js';
 import Card from './Card.js';
 
 function Main (props) {
-
   const currentUser = useContext(CurrentUserContext);
 
   return (
@@ -22,7 +20,7 @@ function Main (props) {
     <section className="elements">
       <ul className="elements__list">
      {props.cards.map((item) => {
-      return <Card card={item} key={item._id} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.handleCardDelete} />
+      return <Card card={item} key={item._id} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />
      })}
       </ul>
     </section>
