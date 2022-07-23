@@ -15,7 +15,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isPopupClose, setIsPopupClose] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
-  const [currentUser, setCurrentUser] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
 
   
   useEffect(() => {
@@ -50,6 +50,17 @@ function App() {
     setSelectedCard({});
   }
 
+  function handleUpdateUser(item) {
+    api.setUserInfo(item)
+      .then((item) => {
+        setCurrentUser({
+          name: item.name,
+          about: item.about,
+          avatar: item.avatar
+        })
+      })
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
@@ -61,7 +72,7 @@ function App() {
       onCardClick={handleCardClick}
       />
       <Footer />
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} /> 
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} /> 
       <PopupWithForm 
       name="card" 
       title="Новое место" 

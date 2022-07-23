@@ -1,6 +1,43 @@
 import PopupWithForm from "./PopupWithForm.js";
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { useState, useEffect, useContext } from 'react';
 
 function EditProfilePopup(props) {
+  const [name, setName] = useState(null);
+  const [description, setDescription] = useState(null);
+  console.log(name)
+  
+
+const currentUser = useContext(CurrentUserContext);
+
+function handleSubmit(e) {
+  e.preventDefault();
+
+  props.onUpdateUser({
+    name,
+    about: description,
+  })
+  setName(name)
+  setDescription(description)
+
+} 
+
+ useEffect(() => {
+  if(currentUser) {
+  setName(currentUser.name);
+  setDescription(currentUser.about)
+  }
+}, [currentUser]); 
+
+
+  function handleChangeName(e) {
+    setName(e.target.value)
+  }
+
+  function handleChangeDescription(e) {
+    setDescription(e.target.value)
+  }
+
   return (
     <PopupWithForm
       name="profile"
@@ -8,6 +45,7 @@ function EditProfilePopup(props) {
       buttonText="Сохранить"
       isOpen={props.isOpen}
       onClose={props.onClose}
+      onSubmit={handleSubmit}
     >
       <div className="popup__position-container">
         <input
@@ -19,6 +57,8 @@ function EditProfilePopup(props) {
           name="person"
           placeholder="Имя"
           className="popup__input popup__input_place_name"
+          value={currentUser?.name}
+          onChange={handleChangeName}
         />
         <span className="popup__error person-error"></span>
       </div>
@@ -32,6 +72,8 @@ function EditProfilePopup(props) {
           name="job"
           placeholder="Профессиональная деятельность"
           className="popup__input popup__input_place_activity"
+          value={currentUser?.about}
+          onChange={handleChangeDescription}
         />
         <span className="popup__error job-error"></span>
       </div>

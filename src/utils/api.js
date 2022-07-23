@@ -33,8 +33,8 @@ class Api {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        name: item.person,
-        about: item.job
+        name: item.name,
+        about: item.about
       })
     })
     .then(this._checkResponse);
@@ -63,14 +63,6 @@ class Api {
   changeLikeCardStatus(cardId, like) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
     method: like ? 'PUT' : 'DELETE',
-    headers: this._headers
-  })
-  .then(this._checkResponse);
-  }
-
-  removeLike(cardId) {
-    return fetch(`${this._url}/cards/${cardId}/likes`, {
-    method: 'DELETE',
     headers: this._headers
   })
   .then(this._checkResponse);
