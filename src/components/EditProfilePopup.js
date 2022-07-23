@@ -3,11 +3,8 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { useState, useEffect, useContext } from 'react';
 
 function EditProfilePopup(props) {
-  const [name, setName] = useState(null);
-  const [description, setDescription] = useState(null);
-  console.log(name)
-  
-
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 const currentUser = useContext(CurrentUserContext);
 
 function handleSubmit(e) {
@@ -19,7 +16,6 @@ function handleSubmit(e) {
   })
   setName(name)
   setDescription(description)
-
 } 
 
  useEffect(() => {
@@ -57,7 +53,7 @@ function handleSubmit(e) {
           name="person"
           placeholder="Имя"
           className="popup__input popup__input_place_name"
-          value={currentUser?.name}
+          value={name || ""}
           onChange={handleChangeName}
         />
         <span className="popup__error person-error"></span>
@@ -72,7 +68,7 @@ function handleSubmit(e) {
           name="job"
           placeholder="Профессиональная деятельность"
           className="popup__input popup__input_place_activity"
-          value={currentUser?.about}
+          value={description || ""}
           onChange={handleChangeDescription}
         />
         <span className="popup__error job-error"></span>
