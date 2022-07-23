@@ -15,6 +15,11 @@ function AddPlacePopup(props) {
     });
   } 
 
+  if(props.isOpen) {
+    nameRef.current.value = ''
+    linkRef.current.value = ''
+  }
+
   return (
     <PopupWithForm
     name="card"
