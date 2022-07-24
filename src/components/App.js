@@ -4,7 +4,7 @@ import Footer from "./Footer.js";
 import PopupWithForm from "./PopupWithForm.js";
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
-import AddPlacePopup from "./AddPlacePopup.js"
+import AddPlacePopup from "./AddPlacePopup.js";
 import ImagePopup from "./ImagePopup.js";
 import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
@@ -29,12 +29,14 @@ function App() {
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
-    .then(([userData, cardsData]) => {
-      setCards(cardsData);
-      setCurrentUser(userData);
-    })
-    .catch(err => {console.log(err)})}, []);
-
+      .then(([userData, cardsData]) => {
+        setCards(cardsData);
+        setCurrentUser(userData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -64,44 +66,57 @@ function App() {
 
     api.changeLikeCardStatus(card._id, !isLiked)
     .then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)))
-    .catch(err => {console.log(err)})
-    });
+      setCards((state) =>
+        state.map((c) => (c._id === card._id ? newCard : c))
+      )})
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleCardDelete(card) {
     api
       .deleteCard(card._id)
       .then(setCards((state) => state.filter((c) => c._id !== card._id)))
-      .catch(err => {console.log(err)})
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleUpdateUser(item) {
-    api.setUserInfo(item)
-    .then((item) => {
-      setCurrentUser(updateData(item))
-      closeAllPopups();
-    })
-    .catch(err => {console.log(err)})
-
+    api
+      .setUserInfo(item)
+      .then((item) => {
+        setCurrentUser(updateData(item));
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleUpdateAvatar(item) {
-    api.updateAvatar(item)
-    .then((item) => {
-      setCurrentUser(updateData(item));
-      closeAllPopups();
-    })
-    .catch(err => {console.log(err)})
+    api
+      .updateAvatar(item)
+      .then((item) => {
+        setCurrentUser(updateData(item));
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleAddPlaceSubmit(item) {
-    api.setNewCard(item)
-    .then((item) => {
-      setCards([item, ...cards])
-      closeAllPopups();
-    })
-    .catch(err => {console.log(err)})
+    api
+      .setNewCard(item)
+      .then((item) => {
+        setCards([item, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -123,11 +138,10 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
-          <AddPlacePopup
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onUpdateCards={handleAddPlaceSubmit}
-          
         />
         <PopupWithForm name="card-delete" title="Вы уверены?" buttonText="Да" />
         <EditAvatarPopup
